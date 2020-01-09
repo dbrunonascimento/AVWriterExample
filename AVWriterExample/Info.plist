@@ -18,6 +18,12 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Shoot video</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Add sound to the video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>A place to store the video</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

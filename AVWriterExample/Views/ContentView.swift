@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        CameraView()
+            .background(Color.black.edgesIgnoringSafeArea(.all))
     }
 }
 
