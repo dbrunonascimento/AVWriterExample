@@ -12,3 +12,5 @@ I plan to add a bit of a tutorial to this Readme in the future.
 Please note: This is NOT a production ready example! If you would like to help move it in that direction please feel free to issue "Pull requests".
 
 If you like this, notes of encourgement are alway welcome.
+
+PS: Much of this code came from this Stackoverflow article: https://stackoverflow.com/questions/51670428/avassetwriter-capturing-video-but-no-audio. Apple's AVCAM example provided insight for many of the issues I encountered. I need to figure out and update the copyright information.
