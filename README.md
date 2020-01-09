@@ -2,9 +2,10 @@
 This project was created to help developers who are interested in experimenting with the Vision framework and other frameworks which are dependent on the use of the AVCaptureVideoDataOutputSampleBufferDelegate and AVCaptureAudioDataOutputSampleBufferDelegate protocols.
 
 Currently the example does the following:
-1. Creates and displays a Preview layer which displays camera out put in orientation.
+1. Creates and displays a Preview layer which displays camera output in the correct orientation.
 2. Has a button to switch between the front and back camera.
 3. Can record video with the correct orientation.
+4. Saves the video to the Photo app.
 
 I plan to add a bit of a tutorial to this Readme in the future.
 
