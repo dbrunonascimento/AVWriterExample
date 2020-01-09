@@ -295,33 +295,40 @@ class CameraViewController: UIViewController,
             audioWriterInput?.markAsFinished()
             print("video finished")
             print("audio finished")
+            
+            self.assetWriter?.finishWriting(){
+                self.isRecording = false
+                print("finished writing")
+                DispatchQueue.main.async{
+                    if self.assetWriter?.status == AVAssetWriter.Status.failed {
+                        print("status: failed")
+                    }else if self.assetWriter?.status == AVAssetWriter.Status.completed{
+                        print("status: completed")
+                        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("\(self.filename).mov")
+                        self.fileToPhotos(outputFileURL: url)
+                    } else if self.assetWriter?.status == AVAssetWriter.Status.cancelled{
+                        print("status: cancelled")
+                    } else {
+                        print("status: unknown")
+                    }
+                    if let e = self.assetWriter?.error{
+                        print("stop record error:", e)
+                    }
+                    self.assetWriter = nil
+                    self.videoWriterInput = nil
+                    self.audioWriterInput = nil
+                }
+            }
         } else {
             print("not writing")
+            self.isRecording = false
+            self.assetWriter = nil
+            self.videoWriterInput = nil
+            self.audioWriterInput = nil
+
         }
 
-        self.assetWriter?.finishWriting(){
-            self.isRecording = false
-            print("finished writing")
-            DispatchQueue.main.async{
-                if self.assetWriter?.status == AVAssetWriter.Status.failed {
-                    print("status: failed")
-                }else if self.assetWriter?.status == AVAssetWriter.Status.completed{
-                    print("status: completed")
-                    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("\(self.filename).mov")
-                    self.fileToPhotos(outputFileURL: url)
-                } else if self.assetWriter?.status == AVAssetWriter.Status.cancelled{
-                    print("status: cancelled")
-                } else {
-                    print("status: unknown")
-                }
-                if let e = self.assetWriter?.error{
-                    print("stop record error:", e)
-                }
-                self.assetWriter = nil
-                self.videoWriterInput = nil
-                self.audioWriterInput = nil
-            }
-        }
+
         print("Stop Recording!")
     }
     
@@ -343,7 +350,13 @@ class CameraViewController: UIViewController,
         if let camera = self.videoWriterInput, camera.isReadyForMoreMediaData, output == videoDataOutput {
             sessionQueue!.async() {
                 let time = CMTime(seconds: timestamp - self.time, preferredTimescale: CMTimeScale(600))
-                self.assetWriterInputPixelBufferAdaptor.append(CMSampleBufferGetImageBuffer(sampleBuffer)!, withPresentationTime: time)
+                if self.assetWriter.status == .writing {
+                    self.assetWriterInputPixelBufferAdaptor.append(CMSampleBufferGetImageBuffer(sampleBuffer)!, withPresentationTime: time)
+                } else {
+                    print("\(self.assetWriter.status.rawValue)!!!!!!!!!!!!!!\n")
+                    //assetWriter was not ready and would have crashed the app
+                    self.stopRecording()
+                }
             }
         }
     }
