@@ -58,6 +58,8 @@ class CameraViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         // Setup the video preview
         previewView.session = captureSession
         // Do any additional setup after loading the view.
@@ -327,8 +329,6 @@ class CameraViewController: UIViewController,
             self.audioWriterInput = nil
 
         }
-
-
         print("Stop Recording!")
     }
     
